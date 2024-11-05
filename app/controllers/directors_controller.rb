@@ -11,16 +11,12 @@ class DirectorsController < ApplicationController
   end
 
   def junior
-    dob = params.fetch("date_of_birth")
-    matching_records = Director.where.not({ :dob => nil}).order({ :date_of_birth => dob }).minimum(:date_of_birth)
-    @the_director = matching_records.at(0)
+    @the_director = Director.where.not({ :dob => nil }).order({ :dob => :asc }).first
     render({ :template => "director_templates/youngest" })
   end
 
   def senior
-    dob = params.fetch("date_of_birth")
-    matching_records = Director.where.not({ :dob => nil}).order({ :date_of_birth => dob }).maximum(:date_of_birth)
-    @the_director = matching_records.at(0)
+    @the_director = Director.where.not({ :dob => nil }).order({ :dob => :desc }).first
     render({ :template => "director_templates/eldest" })
   end
   
